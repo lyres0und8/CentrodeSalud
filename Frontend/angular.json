@@ -27,7 +27,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/flowbite/dist/flowbite.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -91,7 +91,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/flowbite/dist/flowbite.js"]
           }
         }
       }
