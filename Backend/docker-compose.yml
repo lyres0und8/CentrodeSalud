@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   ucn_db:
-    container_name: ingsoftdb
+    container_name: CentroSaludDB
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
