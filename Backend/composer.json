@@ -1,0 +1,16 @@
+{
+    "name": "moxha-sb/backend",
+    "description": "Base de datos para un centro de salud",
+    "autoload": {
+        "psr-4": {
+            "MoxhaSb\\Backend\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alex Pérez",
+            "email": "129556633+MoxhaSB@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
