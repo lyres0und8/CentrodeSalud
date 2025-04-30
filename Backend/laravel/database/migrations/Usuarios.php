@@ -11,12 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        //esta es la tabla de usuarios, sus campos van según el modelo .dia
+        Schema::create('Usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('primerNombre');
+            $table->string('primerApellido');
+            $table->string('segundoApellido');
+            $table->string('telefono');
+            $table->string('rut')->unique(); //unico
+            $table->string('correo')->unique(); //unico
+            $table->string('contrasenia');
+            $table->string('especialidad')->nullable(); //que puede ser nulo
+            $table->boolean('habilitado')->default(true); //es booleano y por defecto está es habilitado
+            $table->timestamp('email_verified_at')->nullable(); 
+            $table->foreignId('idRol')->constrained()->onDelete('cascade'); //la clave foranea es necesaria y si se borra el admin se borra todo.
             $table->rememberToken();
             $table->timestamps();
         });

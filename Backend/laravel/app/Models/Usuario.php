@@ -13,16 +13,23 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos del modelo
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'primerNombre',
+        'primerApellido',
+        'segundoApellido',
+        'telefono',
+        'rut',
+        'correo',
+        'contrasenia',
+        'especialidad',
+        'habilitado',
     ];
 
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -54,5 +61,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    //relacionar el usuario con el Rol (1 usuario tiene solo 1 rol)
+    public function rol(){
+        return $this->belongsTo(Rol::class, 'idRol');
     }
 }
