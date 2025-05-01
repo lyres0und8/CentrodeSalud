@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('contrasenia');
             $table->string('especialidad')->nullable(); //que puede ser nulo
             $table->boolean('habilitado')->default(true); //es booleano y por defecto está es habilitado
-            $table->timestamp('email_verified_at')->nullable(); 
+            $table->timestamp('correoVerificadoEn')->nullable(); 
             $table->foreignId('idRol')->constrained()->onDelete('cascade'); //la clave foranea es necesaria y si se borra el admin se borra todo.
             $table->rememberToken();
             $table->timestamps();

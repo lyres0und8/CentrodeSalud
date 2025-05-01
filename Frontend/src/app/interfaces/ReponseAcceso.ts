@@ -4,15 +4,16 @@ export interface ResponseAcceso{
     data: {
         user: {
             id: number;
-            name: string;
-            lastname: string;
-            role_id: number;
+            nombre: string;
+            appat: string;
+            apmat: string;
+            rolId: number;
             rut: string;
-            phone: string;
-            email: string;
-            email_verified_at: string | null;
-            created_at: string;
-            updated_at: string;
+            telefono: string;
+            correo: string;
+            correoVerificadoEn: string | null;
+            creadoEn: string;
+            actualizadoA: string;
         };
         token: string;
     };

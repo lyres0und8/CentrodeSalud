@@ -1,8 +1,9 @@
 export interface User{
-    name: string;
-    lastname: string;
+    nombre: string;
+    appat: string;
+    apmat: string;
     rut: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
+    correo: string;
+    contrasenia: string;
+    confirmarContrasenia: string;
 }
