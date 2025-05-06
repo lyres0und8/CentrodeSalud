@@ -1,77 +1,60 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { AccesoService } from '../../services/acceso.service';
-import { Login } from '../../interfaces/Login';
+import { Router } from '@angular/router'; // Corrección de importación
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ResponseAcceso } from '../../interfaces/ReponseAcceso';
-import { CommonModule } from '@angular/common';
+import { Login } from '../../interfaces/Login';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink]
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  submitted = false;
-  errorMessage = '';
+export class LoginComponent {
+  private accesoService = inject(AccesoService); // Servicio de autenticación
+  private router = inject(Router); // Para navegar entre rutas
+  private formBuilder = inject(FormBuilder); // Para construir formularios
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private accesoService: AccesoService,
-    private router: Router
-  ) { }
+  public formLogin: FormGroup = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]], // Validación de email
+    password: ['', Validators.required],
+  });
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-  }
-
-  get f() { return this.loginForm.controls; }
-
-  onSubmit() {
-    this.submitted = true;
-    this.errorMessage = '';
-
-    if (this.loginForm.invalid) {
-      console.log('Formulario inválido');
+  // Método para iniciar sesión
+  iniciarSesion() {
+    // Validar si el formulario es válido
+    if (this.formLogin.invalid) {
+      alert('Por favor, complete todos los campos correctamente.');
       return;
     }
 
-    const loginData: Login = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
+    // Crear objeto con los datos del formulario
+    const objeto: Login = {
+      email: this.formLogin.value.email,
+      password: this.formLogin.value.password,
     };
 
-    console.log('Intentando login con:', loginData);
-
-    this.accesoService.login(loginData).subscribe({
-      next: (response: ResponseAcceso) => {
-        console.log('Respuesta del servidor:', response);
-
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('userData', JSON.stringify(response.user));
+    // Llamar al servicio de autenticación
+    this.accesoService.login(objeto).subscribe({
+      next: (data: ResponseAcceso) => {
+        if (data.status === 'success') {
+          // Guardar el token en el local storage
+          localStorage.setItem('token', data.data.token);
+          // Redirigir a la página de inicio
           this.router.navigate(['/inicio']);
         } else {
-          this.errorMessage = 'Credenciales inválidas';
+          alert('Error al iniciar sesión, verifique sus credenciales.');
         }
       },
       error: (error) => {
-        console.error('Error durante el login:', error);
-        if (error.status === 401) {
-          this.errorMessage = 'Correo o contraseña incorrectos';
-        } else {
-          this.errorMessage = 'Error al iniciar sesión. Por favor, intente nuevamente.';
-        }
+        console.error('Error al iniciar sesión:', error);
+        alert('Ocurrió un error al intentar iniciar sesión. Intente nuevamente.');
       },
-      complete: () => {
-        console.log('Login request completed');
-      }
     });
+  }
+
+  // Método para redirigir al registro
+  registrarse() {
+    this.router.navigate(['/register']);
   }
 }
