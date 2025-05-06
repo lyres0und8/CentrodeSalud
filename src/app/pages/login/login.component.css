@@ -1,8 +1,19 @@
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.normal-text {
+  font-weight: 400 !important;
+}
+
+.bold-text {
+  font-weight: 700 !important;
 }
 
 .izquierda {
@@ -92,11 +103,11 @@ input {
   font-size: 16px;
   margin-top: 30px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .boton:hover {
-  background-color: #f4a024;
+  background-color: #f97316; /* Tailwind orange-500 */
   color: white;
 }
 
@@ -112,4 +123,53 @@ a:hover {
 
 .texto-pequeño {
   margin-top: 10px;
+  font-size: 0.875rem;
+}
+
+/* Estilos personalizados adicionales */
+
+/* Estilos personalizados para el componente de login */
+
+.flex {
+  display: flex;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.bg-teal-100 {
+  background-color: #c8f0ef;
+}
+
+.text-black {
+  color: #000;
+}
+
+.text-teal-600 {
+  color: #00b3ad;
+}
+
+.text-orange-500 {
+  color: #f4a024;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.hover\:bg-orange-500:hover {
+  background-color: #f4a024;
+}
+
+.transition {
+  transition: all 0.3s ease;
 }
