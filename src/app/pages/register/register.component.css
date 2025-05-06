@@ -1,0 +1,87 @@
+body {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.normal-text {
+  font-weight: 400 !important;
+}
+
+.bold-text {
+  font-weight: 700 !important;
+}
+
+/* Botón hamburguesa */
+.menu-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  display: block;
+  color: #30bfb1;
+  background: none;
+  border: none;
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+}
+
+/* Menú oculto inicialmente */
+.menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  background-color: #98e6e0;
+  border: none;
+  padding: 0;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Activar menú */
+.menu.active {
+  display: flex;
+}
+
+/* Estilos de items del menú */
+.menu li {
+  list-style: none;
+  width: 100%;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+/* Enlaces del menú */
+.menu a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+}
+
+/* Hover */
+.menu a:hover {
+  background-color: #30bfb1;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+nav img {
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+  pointer-events: none;      /* Deshabilita el arrastre */
+}
