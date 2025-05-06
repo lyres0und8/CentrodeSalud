@@ -7,234 +7,127 @@
   <title>Crear una cuenta</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      box-sizing: border-box;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 400;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-    .normal-text {
-      font-weight: 400 !important;
-    }
-    .bold-text {
-      font-weight: 700 !important;
-    }
-    /* Botón hamburguesa */
-    .menu-toggle {
-      font-size: 28px;
-      cursor: pointer;
-      display: block;
-      color: #30bfb1;
-      background: none;
-      border: none;
-    }
-
-    /* Menú oculto inicialmente */
-    .menu {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      right: 30px;
-      background-color:#98e6e0;
-      border: none;
-      padding: 0;
-      width: 200px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-
-    /* Activar menú */
-    .menu.active {
-      display: flex;
-    }
-
-    /* Estilos de items del menú */
-    .menu li {
-      list-style: none;
-      width: 100%;
-    }
-
-    .menu li:last-child {
-      border-bottom: none;
-    }
-
-    /* Enlaces del menú */
-    .menu a {
-      display: block;
-      padding: 15px;
-      text-decoration: none;
-      color: white;
-    }
-
-    /* Hover */
-    .menu a:hover {
-      background-color: #30bfb1;
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="./register.component.css">
 </head>
 
 <body class="bg-white p-0">
   <nav class="w-full h-28 bg-[#A2DADB] flex items-center justify-between px-6 shadow-md relative z-50">
-    <img src="SaludYa - Logo.png" alt="Logo" class="h-20">
+    <img src="../../assets/SaludYa - Logo.png" alt="Logo" class="h-20">
 
     <div class="relative">
-      <div id="menu-toggle" class="menu-toggle">&#9776;</div>
-      <ul id="menu" class="menu">
-        <li><a href="#inicio" class="bold-text">Inicio</a></li>
-        <li><a href="#servicios" class="bold-text">Servicios</a></li>
-        <li><a href="#sobre-nosotros" class="bold-text">Sobre Nosotros</a></li>
+      <div id="menu-toggle" class="menu-toggle" (click)="toggleMenu()">&#9776;</div>
+      <ul id="menu" class="menu" [class.hidden]="!isMenuVisible">
+        <li><a href="#inicio" class="bold-text" (click)="toggleMenu()">Inicio</a></li>
+        <li><a href="#servicios" class="bold-text" (click)="toggleMenu()">Servicios</a></li>
+        <li><a href="#sobre-nosotros" class="bold-text" (click)="toggleMenu()">Sobre Nosotros</a></li>
       </ul>
+      <div id="overlay" class="fixed inset-0 bg-transparent bg-opacity-50 z-40" [class.hidden]="!isMenuVisible" (click)="toggleMenu()"></div>
     </div>
   </nav>
-  <!-- Overlay para bloquear interacción -->
-  <div id="overlay" class="hidden fixed inset-0 bg-transparent z-40"></div>
 
-  <h2 class=" text-[#30bfb1] text-3xl md:text-4xl mb-5 p-4 ml-20 relative top-6 bold-text">Crea una cuenta</h2>
+  <h2 class="text-[#30bfb1] text-3xl md:text-4xl mb-5 p-4 ml-20 relative top-6 bold-text">Crea una cuenta</h2>
 
   <form [formGroup]="formRegister" (ngSubmit)="registrarse()" class="max-w-8xl mx-24">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-24">
-
-          <!-- Columna izquierda -->
-          <div class="space-y-4">
-
-            <!-- RUT -->
-            <div>
-              <label for="rut" class="text-sm text-[#ff9f1d] bold-text">RUT</label>
-              <input id="rut" type="text" formControlName="rut"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="(rut?.invalid && (rut?.touched || submitted))">
-                <small class="text-red-500" *ngIf="rut?.errors?.['required']">El RUT es obligatorio.</small>
-                <small class="text-red-500" *ngIf="rut?.errors?.['rutInvalido']">RUT inválido.</small>
-              </div>
-              <div *ngIf="rutRepetido"><small class="text-red-500">El RUT y/o correo electrónico ya existen en el sistema. Intente iniciar sesión.</small></div>
-            </div>
-
-            <!-- Nombre -->
-            <div>
-              <label for="nombre" class="text-sm text-[#ff9f1d] bold-text">Nombre</label>
-              <input id="nombre" type="text" formControlName="nombre"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['name']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['name'].hasError('required')">El nombre es obligatorio.</small>
-              </div>
-            </div>
-
-            <!-- Apellido Paterno -->
-            <div>
-              <label for="apellido_p" class="text-sm text-[#ff9f1d] bold-text">Apellido Paterno</label>
-              <input id="apellido_p" type="text" formControlName="paternal_surname"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['paternal_surname']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['paternal_surname'].hasError('required')">El apellido paterno es obligatorio.</small>
-              </div>
-            </div>
-
-            <!-- Apellido Materno -->
-            <div>
-              <label for="apellido_m" class="text-sm text-[#ff9f1d] bold-text">Apellido Materno</label>
-              <input id="apellido_m" type="text" formControlName="maternal_surname"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['maternal_surname']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['maternal_surname'].hasError('required')">El apellido materno es obligatorio.</small>
-              </div>
-            </div>
+      <!-- Columna izquierda -->
+      <div class="space-y-4">
+        <!-- RUT -->
+        <div>
+          <label for="rut" class="text-sm text-[#ff9f1d] bold-text">RUT</label>
+          <input id="rut" type="text" formControlName="rut"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(rut?.invalid && (rut?.touched || submitted))">
+            <small class="text-red-500" *ngIf="rut?.errors?.['required']">El RUT es obligatorio.</small>
+            <small class="text-red-500" *ngIf="rut?.errors?.['rutInvalido']">RUT inválido.</small>
           </div>
-
-          <!-- Columna derecha -->
-          <div class="space-y-4">
-
-            <!-- Email -->
-            <div>
-              <label for="email" class="text-sm text-[#ff9f1d] bold-text">Correo electrónico</label>
-              <input id="email" type="email" formControlName="email"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['email']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['email'].hasError('required')">El correo es obligatorio.</small>
-                <small class="text-red-500" *ngIf="formRegister.controls['email'].hasError('email')">Correo inválido.</small>
-              </div>
-            </div>
-
-            <!-- Teléfono -->
-            <div>
-              <label for="telefono" class="text-sm text-[#ff9f1d] bold-text">Teléfono</label>
-              <input id="telefono" type="text" formControlName="phone"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['phone']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['phone'].hasError('required')">El teléfono es obligatorio.</small>
-              </div>
-            </div>
-
-            <!-- Contraseña -->
-            <div>
-              <label for="password" class="text-sm text-[#ff9f1d] bold-text">Contraseña</label>
-              <input id="password" type="password" formControlName="password"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['password']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['password'].hasError('required')">La contraseña es obligatoria.</small>
-                <small class="text-red-500" *ngIf="formRegister.controls['password'].hasError('minlength')">Mínimo 6 caracteres.</small>
-              </div>
-            </div>
-
-            <!-- Confirmar Contraseña -->
-            <div>
-              <label for="repeat_password" class="text-sm text-[#ff9f1d] bold-text">Repetir Contraseña</label>
-              <input id="repeat_password" type="password" formControlName="password_confirmation"
-                class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
-              <div *ngIf="submitted && formRegister.controls['password_confirmation']?.errors">
-                <small class="text-red-500" *ngIf="formRegister.controls['password_confirmation'].hasError('required')">Debes repetir la contraseña.</small>
-                <small class="text-red-500" *ngIf="formRegister.hasError('passwordsMismatch')">Las contraseñas no coinciden.</small>
-              </div>
-            </div>
+          <div *ngIf="rutRepetido"><small class="text-red-500">El RUT y/o correo electrónico ya existen en el sistema. Intente iniciar sesión.</small></div>
+        </div>
+        <!-- Nombre -->
+        <div>
+          <label for="nombre" class="text-sm text-[#ff9f1d] bold-text">Nombre</label>
+          <input id="nombre" type="text" formControlName="nombre"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['name']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['name'].hasError('required')">El nombre es obligatorio.</small>
           </div>
+        </div>
+        <!-- Apellido Paterno -->
+        <div>
+          <label for="apellido_p" class="text-sm text-[#ff9f1d] bold-text">Apellido Paterno</label>
+          <input id="apellido_p" type="text" formControlName="paternal_surname"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['paternal_surname']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['paternal_surname'].hasError('required')">El apellido paterno es obligatorio.</small>
+          </div>
+        </div>
+        <!-- Apellido Materno -->
+        <div>
+          <label for="apellido_m" class="text-sm text-[#ff9f1d] bold-text">Apellido Materno</label>
+          <input id="apellido_m" type="text" formControlName="maternal_surname"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['maternal_surname']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['maternal_surname'].hasError('required')">El apellido materno es obligatorio.</small>
+          </div>
+        </div>
+      </div>
+      <!-- Columna derecha -->
+      <div class="space-y-4">
+        <!-- Email -->
+        <div>
+          <label for="email" class="text-sm text-[#ff9f1d] bold-text">Correo electrónico</label>
+          <input id="email" type="email" formControlName="email"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['email']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['email'].hasError('required')">El correo es obligatorio.</small>
+            <small class="text-red-500" *ngIf="formRegister.controls['email'].hasError('email')">Correo inválido.</small>
+          </div>
+        </div>
+        <!-- Teléfono -->
+        <div>
+          <label for="telefono" class="text-sm text-[#ff9f1d] bold-text">Teléfono</label>
+          <input id="telefono" type="text" formControlName="phone"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['phone']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['phone'].hasError('required')">El teléfono es obligatorio.</small>
+          </div>
+        </div>
+        <!-- Contraseña -->
+        <div>
+          <label for="password" class="text-sm text-[#ff9f1d] bold-text">Contraseña</label>
+          <input id="password" type="password" formControlName="password"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['password']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['password'].hasError('required')">La contraseña es obligatoria.</small>
+            <small class="text-red-500" *ngIf="formRegister.controls['password'].hasError('minlength')">Mínimo 6 caracteres.</small>
+          </div>
+        </div>
+        <!-- Confirmar Contraseña -->
+        <div>
+          <label for="repeat_password" class="text-sm text-[#ff9f1d] bold-text">Repetir Contraseña</label>
+          <input id="repeat_password" type="password" formControlName="password_confirmation"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="submitted && formRegister.controls['password_confirmation']?.errors">
+            <small class="text-red-500" *ngIf="formRegister.controls['password_confirmation'].hasError('required')">Debes repetir la contraseña.</small>
+            <small class="text-red-500" *ngIf="formRegister.hasError('passwordsMismatch')">Las contraseñas no coinciden.</small>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- Pie de formulario -->
     <div class="mt-4 flex flex-col md:flex-row md:items-center md:justify-between">
       <p class="text-sm normal-text mb-40">
         ¿Ya tienes una cuenta?, ir a
         <a routerLink="/login" class="text-[#ff9f1d] bold-text underline ml-1 hover:text-[#e17f00] transition-colors duration-200 cursor-pointer">iniciar sesión</a>
       </p>
-
       <button type="submit"
-        class ="mt-4 md:mt-2 bg-[#ff9f1d] text-white px-6 py-2 rounded-full shadow hover:bg-[#e6820d] transition text-sm md:text-base bold-text  mb-32">
+        class="mt-4 md:mt-2 bg-[#ff9f1d] text-white px-6 py-2 rounded-full shadow hover:bg-[#e6820d] transition text-sm md:text-base bold-text mb-32">
         Registrarse
       </button>
     </div>
   </form>
-
-  <!-- FOOTER -->
   <footer class="w-full bg-[#30bfb1] text-white py-10 px-6">
     <div class="max-w-9xl mx-auto flex justify-start items-center">
       <p class="text-sm">&copy; 2025 Salud Ya. Todos los derechos reservados.</p>
     </div>
   </footer>
-
-<script>
-    const toggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    const overlay = document.getElementById('overlay');
-
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('active');
-    });
-
-    // Opcional: cerrar el menú al hacer clic en un enlace
-    document.querySelectorAll('.menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        menu.classList.remove('active');
-        });
-    });
-    // Cierra el menú si se hace clic fuera de él
-    document.addEventListener('click', (e) => {
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.add('hidden');
-      }
-    });
-  </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AccesoService } from '../../services/acceso.service';
 import { Router } from '@angular/router';
@@ -10,15 +10,16 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements AfterViewInit {
   public submitted = false;
   private accesoService = inject(AccesoService);
   private router = inject(Router);
   public formBuild = inject(FormBuilder);
   public rutRepetido = false;
   public emailRepetido = false;
+  public isMenuVisible = false;
 
   public formRegister: FormGroup = this.formBuild.group(
     {
@@ -74,6 +75,10 @@ export class RegisterComponent {
     this.router.navigate(['login']);
   }
 
+  toggleMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
+  }
+
   get rut() {
     return this.formRegister.get('rut');
   }
@@ -116,6 +121,24 @@ export class RegisterComponent {
       const confirm = group.get('password_confirmation')?.value;
       return password === confirm ? null : { passwordMismatch: true };
     };
+  }
+
+  ngAfterViewInit(): void {
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    const overlay = document.getElementById('overlay');
+
+    if (toggle && menu && overlay) {
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        overlay.classList.toggle('hidden');
+      });
+
+      overlay.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        overlay.classList.add('hidden');
+      });
+    }
   }
 }
 
