@@ -1,29 +1,79 @@
-<div class="izquierda">
-  <div class="logo">
-    <img src="SaludYa.png" alt="Logo SaludYa">
-  </div>
-  <div class="beneficios">
-    <p>Gestiona tus citas médicas</p>
-    <p>Consulta tu historial médico</p>
-    <p>Accede a órdenes y recetas médicas</p>
-    <p>Revisa tus resultados de exámenes</p>
-  </div>
-</div>
-
-<div class="derecha">
-  <h2>Mi Portal</h2>
-  <p>Ingresa tu correo para iniciar sesión o crear una nueva cuenta</p>
-  <form>
-    <label for="correo">Correo electrónico</label>
-    <input type="email" id="correo" name="correo" required>
-
-    <label for="password">Contraseña</label>
-    <input type="password" id="password" name="password" required>
-
-    <div class="texto-pequeño">
-      En caso de no tener una cuenta, ir a <a href="#">registrarse</a>
+<div class="flex h-screen">
+  <!-- Sección izquierda -->
+  <div class="w-1/2 bg-teal-100 text-black flex flex-col justify-center items-center p-10">
+    <div class="logo mb-8">
+      <img src="../../assets/SaludYa - Logo.png" alt="Logo SaludYa" class="h-48">
     </div>
+    <div class="beneficios text-lg leading-8">
+      <p class="flex items-center gap-2">
+        <span class="text-teal-600 font-bold">✔</span> Gestiona tus citas médicas
+      </p>
+      <p class="flex items-center gap-2">
+        <span class="text-teal-600 font-bold">✔</span> Consulta tu historial médico
+      </p>
+      <p class="flex items-center gap-2">
+        <span class="text-teal-600 font-bold">✔</span> Accede a órdenes y recetas médicas
+      </p>
+      <p class="flex items-center gap-2">
+        <span class="text-teal-600 font-bold">✔</span> Revisa tus resultados de exámenes
+      </p>
+    </div>
+  </div>
 
-    <button type="submit" class="boton">Iniciar sesión</button>
-  </form>
+  <!-- Sección derecha -->
+  <div class="w-1/2 flex flex-col justify-center p-10">
+    <h2 class="text-teal-600 text-2xl font-bold mb-4">Mi Portal</h2>
+    <p class="mb-6">Ingresa tu correo para iniciar sesión o crear una nueva cuenta</p>
+    <form [formGroup]="formLogin" (ngSubmit)="iniciarSesion()">
+      <label for="correo" class="block font-bold text-orange-500 mt-4">Correo electrónico</label>
+      <input
+        type="email"
+        id="correo"
+        formControlName="email"
+        class="w-full p-3 mt-2 rounded-lg bg-gray-200 border-none"
+        required
+      />
+
+      <label for="password" class="block font-bold text-orange-500 mt-4">Contraseña</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        class="w-full p-3 mt-2 rounded-lg bg-gray-200 border-none"
+        required
+      />
+
+      <div class="texto-pequeño mt-4">
+        En caso de no tener una cuenta, ir a
+        <a (click)="registrarse()" class="text-orange-500 font-bold hover:underline cursor-pointer">registrarse</a>
+      </div>
+
+      <button
+        type="submit"
+        class="boton bg-orange-400 text-white font-bold py-3 px-6 rounded-full mt-6 hover:bg-orange-500 transition"
+      >
+        Iniciar sesión
+      </button>
+    </form>
+  </div>
 </div>
+
+<style>
+
+.beneficios p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #0d9488; /* Tailwind teal-600 */
+}
+
+.beneficios p::before {
+  content: ''; /* Elimina el pseudo-elemento que genera el segundo ✔ */
+}
+
+.logo img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+</style>
