@@ -1,14 +1,14 @@
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AccesoService } from '../../services/acceso.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { User } from '../../interfaces/User';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
@@ -16,12 +16,12 @@ export class RegisterComponent implements AfterViewInit {
   public submitted = false;
   private accesoService = inject(AccesoService);
   private router = inject(Router);
-  public formBuild = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
   public rutRepetido = false;
   public emailRepetido = false;
   public isMenuVisible = false;
 
-  public formRegister: FormGroup = this.formBuild.group(
+  public formRegister: FormGroup = this.formBuilder.group(
     {
       name: ['', Validators.required],
       paternal_surname: ['', Validators.required],
@@ -32,14 +32,22 @@ export class RegisterComponent implements AfterViewInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       password_confirmation: ['', Validators.required],
     },
-    { validators: [this.matchPasswords()] });
+    { validators: this.matchPasswords() }
+  );
+
+  get formControls() {
+    return this.formRegister.controls;
+  }
 
   public registrarse(): void {
     this.submitted = true;
     this.rutRepetido = false;
     this.emailRepetido = false;
 
-    if (this.formRegister.invalid) return;
+    if (this.formRegister.invalid) {
+      console.log('Formulario inválido', this.formRegister.errors);
+      return;
+    }
 
     const usuario: User = {
       name: this.formRegister.value.name,
@@ -53,34 +61,40 @@ export class RegisterComponent implements AfterViewInit {
     };
 
     this.accesoService.registrarse(usuario).subscribe({
-      next: (data) => {
-        if (data.status === 'success') {
-          this.router.navigate(['login']);
-        } else if (data.message?.includes('ya existe')) {
+      next: (response) => {
+        console.log('Respuesta del servidor:', response);
+        if (response.status) {
+          this.router.navigate(['/login']);
+        } else if (response.message?.includes('existe')) {
           this.rutRepetido = true;
           this.emailRepetido = true;
-        }
-        else {
-          alert('No se pudo registrar el usuario');
+        } else {
+          console.error('Error en el registro:', response.message);
         }
       },
-      error: () => {
-        console.error('Error al registrar el usuario: ', Error);
-        alert('Error al intentar registrar. Intente nuevamente más tarde.');
-      },
+      error: (error) => {
+        console.error('Error al registrar el usuario:', error);
+        if (error.status === 422) {
+          // Error de validación
+          this.handleValidationErrors(error.error.errors);
+        } else {
+          alert('Error al intentar registrar. Intente nuevamente más tarde.');
+        }
+      }
     });
   }
 
-  volver() {
-    this.router.navigate(['login']);
+  private handleValidationErrors(errors: any): void {
+    if (errors.rut) {
+      this.rutRepetido = true;
+    }
+    if (errors.email) {
+      this.emailRepetido = true;
+    }
   }
 
   toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
-  }
-
-  get rut() {
-    return this.formRegister.get('rut');
   }
 
   private rutValidator(): ValidatorFn {

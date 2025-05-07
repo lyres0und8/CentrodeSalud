@@ -5,6 +5,7 @@ import { User } from '../interfaces/User';
 import { Observable } from 'rxjs';
 import { ResponseAcceso } from '../interfaces/ReponseAcceso';
 import { Login } from '../interfaces/Login';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +30,17 @@ export class AccesoService {
       `${this.baseUrl}/register`, objeto, { headers }
     );
   }
-  
+
   //Metodo para login
   login(objeto: Login): Observable<ResponseAcceso>{
-    const headers = this.getHeaders();
-
+    console.log('Enviando petición a:', `${this.baseUrl}/login`);
     return this.http.post<ResponseAcceso>(
-      `${this.baseUrl}/login`, objeto, { headers }
+      `${this.baseUrl}/login`, objeto
+    ).pipe(
+      tap(
+        response => console.log('Respuesta exitosa:', response),
+        error => console.error('Error en la petición:', error)
+      )
     );
   }
 

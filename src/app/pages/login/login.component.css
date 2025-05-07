@@ -1,27 +1,16 @@
 body {
-  box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-.normal-text {
-  font-weight: 400 !important;
-}
-
-.bold-text {
-  font-weight: 700 !important;
+.login-container {
+  display: flex;
+  min-height: 100vh;
 }
 
 .izquierda {
   background-color: #c8f0ef;
-  color: #000;
   width: 50%;
   padding: 40px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,28 +18,18 @@ html {
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
+  text-align: center;
 }
 
 .logo img {
   height: 200px;
-}
-
-.logo-text {
-  font-size: 32px;
-  font-weight: bold;
-}
-
-.logo-text span {
-  color: #f4c04e;
+  margin-bottom: 20px;
 }
 
 .beneficios {
   font-size: 20px;
-  line-height: 2;
+  line-height: 2.5;
 }
 
 .beneficios p {
@@ -60,15 +39,14 @@ html {
 }
 
 .beneficios p::before {
-  content: '✔';
+  content: '✓';
   color: #00b3ad;
   font-weight: bold;
 }
 
 .derecha {
   width: 50%;
-  padding: 40px;
-  box-sizing: border-box;
+  padding: 40px 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -76,100 +54,142 @@ html {
 
 h2 {
   color: #00b3ad;
-  margin-bottom: 10px;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 30px;
 }
 
 label {
-  font-weight: bold;
-  color: #f4a024;
   display: block;
-  margin-top: 20px;
+  color: #f4a024;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 input {
   width: 100%;
   padding: 12px;
-  margin-top: 5px;
-  border-radius: 10px;
-  border: none;
-  background-color: #e8e2e2;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  background-color: #f5f5f5;
+  font-size: 16px;
 }
 
 .boton {
   background-color: #f4c04e;
+  color: #000;
   border: none;
-  padding: 12px 20px;
+  padding: 12px;
   border-radius: 25px;
   font-size: 16px;
+  width: 100%;
   margin-top: 30px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .boton:hover {
-  background-color: #f97316; /* Tailwind orange-500 */
+  background-color: #f4a024;
   color: white;
 }
 
 a {
   color: #f4a024;
   font-weight: bold;
-  text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-.texto-pequeño {
-  margin-top: 10px;
+.error-message {
+  color: #dc3545;
+  background-color: #ffe6e6;
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
   font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-/* Estilos personalizados adicionales */
-
-/* Estilos personalizados para el componente de login */
-
-.flex {
-  display: flex;
+.texto-pequeño {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
 }
 
-.h-screen {
-  height: 100vh;
+.texto-pequeño a {
+  color: #f4a024;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.bg-teal-100 {
-  background-color: #c8f0ef;
+/* Flexbox adjustments for layout */
+.izquierda, .derecha {
+  flex: 1;
 }
 
-.text-black {
-  color: #000;
+h2 {
+  color: #00b3ad;
+  margin-bottom: 10px;
 }
 
 .text-teal-600 {
   color: #00b3ad;
 }
 
-.text-orange-500 {
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .izquierda, .derecha {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .logo img {
+    height: 150px;
+  }
+}
+
+.register-link {
   color: #f4a024;
-}
-
-.font-bold {
+  text-decoration: none;
   font-weight: bold;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.rounded-full {
-  border-radius: 9999px;
-}
-
-.hover\:bg-orange-500:hover {
-  background-color: #f4a024;
-}
-
-.transition {
   transition: all 0.3s ease;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.register-link:hover {
+  background-color: #f4a024;
+  color: white;
+  text-decoration: none;
 }
