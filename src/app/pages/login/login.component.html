@@ -12,7 +12,7 @@
   </div>
 
   <div class="derecha">
-    <h2>Mi Portal</h2>
+    <h2 class="bold-text">Mi Portal</h2>
     <p class="subtitle">Ingresa tu correo para iniciar sesión o crear una nueva cuenta</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -49,12 +49,18 @@
         {{ errorMessage }}
       </div>
 
-      <button type="submit" class="boton">Iniciar sesión</button>
+      <button type="submit" class="boton bold-text">Iniciar sesión</button>
 
       <div class="texto-pequeño">
         En caso de no tener una cuenta, ir a
         <a [routerLink]="['/register']" class="register-link">registrarse</a>
       </div>
     </form>
+
   </div>
 </div>
+<footer class="w-full bg-[#30bfb1] text-white py-10 px-6">
+      <div class="max-w-9xl mx-auto flex justify-start items-center">
+      <p class="text-sm">&copy; 2025 Salud Ya. Todos los derechos reservados.</p>
+      </div>
+</footer>
