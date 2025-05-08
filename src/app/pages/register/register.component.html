@@ -41,6 +41,8 @@
         <div>
           <label for="rut" class="text-sm text-[#ff9f1d] bold-text">RUT</label>
           <input id="rut" type="text" formControlName="rut"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su RUT sin números ni guión"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
           <div *ngIf="(formControls['rut'].invalid && (formControls['rut'].touched || submitted))">
             <small class="text-red-500" *ngIf="formControls['rut'].errors?.['required']">El RUT es obligatorio.</small>
@@ -55,7 +57,9 @@
         <div>
           <label for="nombre" class="text-sm text-[#ff9f1d] bold-text">Nombre</label>
           <input id="nombre" type="text" formControlName="name"
-            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+           class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+           placeholder="Ingrese su Nombre"
+           class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
           <div *ngIf="(formControls['name'].invalid && (formControls['name'].touched || submitted))">
             <small class="text-red-500" *ngIf="formControls['name'].errors?.['required']">El nombre es obligatorio.</small>
             <small class="text-red-500" *ngIf="formControls['name'].errors?.['minlength']">
@@ -68,6 +72,8 @@
         <div>
           <label for="apellido_p" class="text-sm text-[#ff9f1d] bold-text">Apellido Paterno</label>
           <input id="apellido_p" type="text" formControlName="paternal_surname"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su Apellido Paterno"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
           <div *ngIf="(formControls['paternal_surname'].invalid && (formControls['paternal_surname'].touched || submitted))">
             <small class="text-red-500" *ngIf="formControls['paternal_surname'].errors?.['required']">
@@ -83,6 +89,8 @@
         <div>
           <label for="apellido_m" class="text-sm text-[#ff9f1d] bold-text">Apellido Materno</label>
           <input id="apellido_m" type="text" formControlName="maternal_surname"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su Apellido Materno"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
           <div *ngIf="(formControls['maternal_surname'].invalid && (formControls['maternal_surname'].touched || submitted))">
             <small class="text-red-500" *ngIf="formControls['maternal_surname'].errors?.['required']">
@@ -101,6 +109,8 @@
         <div>
           <label for="email" class="text-sm text-[#ff9f1d] bold-text">Correo electrónico</label>
           <input id="email" type="email" formControlName="email"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su correo electrónico"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
           <div *ngIf="(formControls['email'].invalid && (formControls['email'].touched || submitted))">
             <small class="text-red-500" *ngIf="formControls['email'].errors?.['required']">El correo es obligatorio.</small>
@@ -115,6 +125,8 @@
         <div>
           <label for="telefono" class="text-sm text-[#ff9f1d] bold-text">Teléfono</label>
           <input id="telefono" type="text" formControlName="phone"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su número de teléfono (Ej: +56912345678)"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
           <div *ngIf="(formControls['phone'].invalid && (formControls['phone'].touched || submitted))">
             <small class="text-red-500" *ngIf="formControls['phone'].errors?.['required']">El teléfono es obligatorio.</small>
@@ -131,6 +143,8 @@
             id="password"
             type="password"
             formControlName="password"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Cree una contraseña (mínimo 8 caracteres)"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none"
           >
           <div *ngIf="(formControls['password'].invalid && (formControls['password'].touched || submitted))">
@@ -153,6 +167,8 @@
             id="repeat_password"
             type="password"
             formControlName="password_confirmation"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su contraseña nuevamente"
             class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none"
           >
           <div *ngIf="(formControls['password_confirmation'].invalid && (formControls['password_confirmation'].touched || submitted))">
