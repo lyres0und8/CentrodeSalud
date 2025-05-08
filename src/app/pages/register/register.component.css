@@ -134,11 +134,12 @@ label {
 
 input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
   background-color: #f5f5f5;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
+  font-size: 16px;
+  color: #718096; /* Cambia el color del texto */
 }
 
 input:focus {
@@ -146,10 +147,61 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(48, 191, 177, 0.2);
 }
 
-.error-message {
+/* Estilo para los inputs del formulario */
+.input {
+  width: 100%;
+  padding: 0.75rem; /* Ajusta el padding para que sea consistente */
+  border-radius: 8px;
+  border: 1px solid #e2e2e2; /* Borde gris claro */
+  background-color: #f5f5f5; /* Fondo gris claro */
+  font-size: 0.875rem; /* Tamaño de fuente */
+  color: #718096; /* Color del texto */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #ff9f1d; /* Borde naranja */
+  box-shadow: 0 0 0 2px rgba(255, 159, 29, 0.5); /* Efecto de enfoque naranja */
+}
+
+/* Estilo para los mensajes de error */
+.text-red-500 {
+  font-size: 0.75rem; /* Tamaño de fuente más pequeño */
+}
+
+/* Estilo para los labels */
+.label {
+  font-size: 0.875rem; /* Tamaño de fuente */
+  color: #ff9f1d; /* Color naranja */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.boton:hover {
+  background-color:#f4a024;
+  color: white;
+}
+
+a {
+  color: #f4a024;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+  color:#e17f00;
+}
+
+error-message {
   color: #dc3545;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
+  background-color: #ffe6e6;
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 14px;
 }
 
 /* Botón de registro */
@@ -170,26 +222,19 @@ input:focus {
   color: #ffffff;
 }
 
-/* Enlaces */
-.login-link {
-  color: #f4a024;
+.Register-link {
+  color: #ff9f1d;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  padding: 2px 5px;
+  border-radius: 4px;
 }
 
-.login-link:hover {
-  text-decoration: underline;
-}
-
-/* Footer */
-footer {
-  background-color: #30bfb1;
+.Register-link:hover {
+  background-color: #f4a024;
   color: white;
-  padding: 1.5rem;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  text-decoration: none;
 }
 
 /* Responsive */
@@ -246,4 +291,9 @@ input.ng-valid.ng-touched {
   .menu.active {
     display: block;
   }
+}
+
+.boton:hover {
+  background-color:#f4a024;
+  color: white;
 }

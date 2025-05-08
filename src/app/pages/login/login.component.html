@@ -12,49 +12,82 @@
   </div>
 
   <div class="derecha">
-    <h2>Mi Portal</h2>
+    <h2 class="bold-text">Mi Portal</h2>
     <p class="subtitle">Ingresa tu correo para iniciar sesión o crear una nueva cuenta</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Campo de correo electrónico -->
       <div class="form-group">
         <label for="email">Correo electrónico</label>
         <input
           type="email"
           id="email"
           formControlName="email"
-          [ngClass]="{'is-invalid': submitted && f['email'].errors}"
+          class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
           placeholder="Ingresa tu correo"
         >
-        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-          <div *ngIf="f['email'].errors['required']">El correo es requerido</div>
-          <div *ngIf="f['email'].errors['email']">Ingrese un correo válido</div>
+        <div *ngIf="(f['email'].touched || submitted) && f['email'].invalid" class="invalid-feedback">
+          <div *ngIf="f['email'].errors?.['required']">El correo es obligatorio.</div>
+          <div *ngIf="f['email'].errors?.['email']">Ingrese un correo válido.</div>
         </div>
       </div>
 
+      <!-- Campo de contraseña -->
       <div class="form-group">
         <label for="password">Contraseña</label>
         <input
           type="password"
           id="password"
           formControlName="password"
-          [ngClass]="{'is-invalid': submitted && f['password'].errors}"
+          class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
           placeholder="Ingresa tu contraseña"
         >
-        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-          <div *ngIf="f['password'].errors['required']">La contraseña es requerida</div>
+        <div *ngIf="(f['password'].touched || submitted) && f['password'].invalid" class="invalid-feedback">
+          <div *ngIf="f['password'].errors?.['required']">La contraseña es obligatoria.</div>
         </div>
       </div>
 
+      <!-- Mensaje de error general -->
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
 
-      <button type="submit" class="boton">Iniciar sesión</button>
-
-      <div class="texto-pequeño">
-        En caso de no tener una cuenta, ir a
-        <a [routerLink]="['/register']" class="register-link">registrarse</a>
+      <!-- Texto de registro -->
+      <div class="flex flex-col items-start mt-4">
+        <p class="text 15px text-black">
+          En caso de no tener una cuenta, ir a
+          <a
+            routerLink="/register"
+            class="text-[#ff9f1d] bold-text underline hover:text-[#e17f00] transition-colors duration-200 cursor-pointer"
+          >
+            registrarse
+          </a>
+        </p>
       </div>
+
+      <!-- Botón de envío -->
+      <div class="flex flex-col items-start mt-6"></div>
+      <button
+        type="submit"
+        class="boton bold-text mt-6 md:mt-3 bg-[#ff9f1d] text-white px-6 py-2 rounded-full shadow hover:bg-[#e6820d] transition text-sm md:text-base bold-text"
+      >
+        Iniciar Sesión
+      </button>
     </form>
+
+    <div class="flex flex-col items-center mt-8">
+      <a
+        routerLink="/forgotpassword"
+        class="text-[#ff9f1d] bold-text underline hover:text-[#e17f00] transition-colors duration-200 cursor-pointer"
+      >
+        ¿Olvidaste tu contraseña?
+      </a>
+    </div>
   </div>
 </div>
+
+<footer class="w-full bg-[#30bfb1] text-white py-10 px-6">
+  <div class="max-w-9xl mx-auto flex justify-start items-center">
+    <p class="text-sm">&copy; 2025 Salud Ya. Todos los derechos reservados.</p>
+  </div>
+</footer>

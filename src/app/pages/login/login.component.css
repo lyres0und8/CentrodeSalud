@@ -1,5 +1,10 @@
 body {
+  box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
 }
 
 .login-container {
@@ -50,16 +55,17 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 50px;
 }
 
 h2 {
   color: #00b3ad;
-  font-size: 32px;
+  font-size: 35px;
   margin-bottom: 15px;
 }
 
 .subtitle {
-  color: #666;
+  color: #000000;
   margin-bottom: 30px;
 }
 
@@ -77,23 +83,26 @@ input {
   border: 1px solid #e2e2e2;
   background-color: #f5f5f5;
   font-size: 16px;
+  color: #718096; /* Cambia el color del texto */
 }
 
 .boton {
-  background-color: #f4c04e;
-  color: #000;
+  background-color: #f4a024;
+  color: #ffffff;
+  padding: 0.75rem 2rem;
   border: none;
-  padding: 12px;
   border-radius: 25px;
-  font-size: 16px;
-  width: 100%;
-  margin-top: 30px;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: block; /* Asegura que el botón sea un bloque */
+  margin: 0 auto; /* Centra horizontalmente */
+  text-align: center; /* Centra el texto dentro del botón */
 }
 
 .boton:hover {
-  background-color: #f4a024;
+  background-color:#f4a024;
   color: white;
 }
 
@@ -104,6 +113,7 @@ a {
 
 a:hover {
   text-decoration: underline;
+  color:#e17f00;
 }
 
 .error-message {
@@ -141,13 +151,14 @@ a:hover {
 .texto-pequeño {
   text-align: center;
   margin-top: 20px;
-  color: #666;
+  color: #030303;
 }
 
 .texto-pequeño a {
   color: #f4a024;
   text-decoration: none;
   font-weight: bold;
+  text-decoration: underline
 }
 
 /* Flexbox adjustments for layout */
@@ -179,8 +190,8 @@ h2 {
   }
 }
 
-.register-link {
-  color: #f4a024;
+.login-link {
+  color: #ff9f1d;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
@@ -188,8 +199,16 @@ h2 {
   border-radius: 4px;
 }
 
-.register-link:hover {
+.login-link:hover {
   background-color: #f4a024;
   color: white;
   text-decoration: none;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+footer p {
+  font-size: 15px; /* Cambia este valor para agrandar la letra */
 }
