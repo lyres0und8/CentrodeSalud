@@ -1,8 +1,15 @@
 import { Component, AfterViewInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { AccesoService } from '../../services/acceso.service';
 import { Router, RouterLink } from '@angular/router';
-import { User } from '../../interfaces/User';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,83 +21,80 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent implements AfterViewInit {
   public submitted = false;
-  private accesoService = inject(AccesoService);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
+  public successMessage: string = ''; // Mensaje de éxito
+  public errorMessage: string[] = []; // Array para mensajes de error específicos
   public rutRepetido = false;
   public emailRepetido = false;
   public isMenuVisible = false;
 
+  private accesoService = inject(AccesoService);
+  private router = inject(Router);
+  private formBuilder = inject(FormBuilder);
+
   public formRegister: FormGroup = this.formBuilder.group(
     {
-      name: ['', Validators.required],
-      paternal_surname: ['', Validators.required],
-      maternal_surname: ['', Validators.required],
-      rut: ['', [Validators.required, this.rutValidator()]],
-      phone: ['', [Validators.required, this.phoneValidator()]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      password_confirmation: ['', Validators.required],
+      rut: ['', [Validators.required, this.rutValidator()]], // Validador personalizado para RUT
+      name: ['', [Validators.required, Validators.minLength(3)]], // Nombre obligatorio, mínimo 3 caracteres
+      paternal_surname: ['', [Validators.required, Validators.minLength(3)]], // Apellido paterno obligatorio
+      maternal_surname: ['', [Validators.required, Validators.minLength(3)]], // Apellido materno obligatorio
+      phone: ['', [Validators.required, this.phoneValidator()]], // Teléfono obligatorio con formato válido
+      email: ['', [Validators.required, Validators.email]], // Correo electrónico obligatorio y válido
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          this.passwordStrengthValidator(),
+        ],
+      ], // Contraseña obligatoria con validaciones de seguridad
+      password_confirmation: ['', [Validators.required]], // Confirmación de contraseña obligatoria
     },
-    { validators: this.matchPasswords() }
+    { validators: this.matchPasswordsValidator() } // Validador para confirmar contraseñas
   );
 
   get formControls() {
     return this.formRegister.controls;
   }
 
-  public registrarse(): void {
+  public async registrarse(): Promise<void> {
     this.submitted = true;
-    this.rutRepetido = false;
-    this.emailRepetido = false;
 
     if (this.formRegister.invalid) {
-      console.log('Formulario inválido', this.formRegister.errors);
+      console.log('Formulario inválido');
       return;
     }
 
-    const usuario: User = {
-      name: this.formRegister.value.name,
-      paternal_surname: this.formRegister.value.paternal_surname,
-      maternal_surname: this.formRegister.value.maternal_surname,
-      rut: this.formRegister.value.rut,
-      phone: this.formRegister.value.phone,
-      email: this.formRegister.value.email,
-      password: this.formRegister.value.password,
+    const formData = {
+      ...this.formRegister.value,
       password_confirmation: this.formRegister.value.password_confirmation,
     };
 
-    this.accesoService.registrarse(usuario).subscribe({
-      next: (response) => {
-        console.log('Respuesta del servidor:', response);
-        if (response.status) {
-          this.router.navigate(['/login']);
-        } else if (response.message?.includes('existe')) {
-          this.rutRepetido = true;
-          this.emailRepetido = true;
-        } else {
-          console.error('Error en el registro:', response.message);
-        }
-      },
-      error: (error) => {
-        console.error('Error al registrar el usuario:', error);
-        if (error.status === 422) {
-          // Error de validación
-          this.handleValidationErrors(error.error.errors);
-        } else {
-          alert('Error al intentar registrar. Intente nuevamente más tarde.');
-        }
+    try {
+      const response = await this.accesoService.registrarse(formData).toPromise();
+      console.log('Registro exitoso:', response);
+
+      // Mostrar mensaje de éxito
+      this.successMessage = 'Registro exitoso. Redirigiendo al inicio de sesión...';
+
+      // Redirigir al login después de 5 segundos
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 5000);
+    } catch (error: any) {
+      console.error('Error al registrar:', error);
+
+      if (error?.error?.errors) {
+        this.errorMessage = Object.values(error.error.errors).flat() as string[];
+      } else if (error?.message) {
+        this.errorMessage = [error.message];
+      } else {
+        this.errorMessage = ['Error al registrar el usuario. Inténtalo de nuevo.'];
       }
-    });
+    }
   }
 
-  private handleValidationErrors(errors: any): void {
-    if (errors.rut) {
-      this.rutRepetido = true;
-    }
-    if (errors.email) {
-      this.emailRepetido = true;
-    }
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 
   toggleMenu(): void {
@@ -100,23 +104,15 @@ export class RegisterComponent implements AfterViewInit {
   private rutValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const rut = control.value;
-      if (!rut) return null;
-      if (!/^\d{7,8}[0-9Kk]$/.test(rut)) return { rutInvalido: true };
 
-      const body = rut.slice(0, -1);
-      let dv = rut.slice(-1).toUpperCase();
-
-      let sum = 0;
-      let multiplier = 2;
-      for (let i = body.length - 1; i >= 0; i--) {
-        sum += parseInt(body[i]) * multiplier;
-        multiplier = multiplier === 7 ? 2 : multiplier + 1;
+      // Verifica que el RUT tenga exactamente 9 caracteres
+      if (!rut || rut.length !== 9) {
+        return { invalidRut: true };
       }
 
-      const expectedDv = 11 - (sum % 11);
-      const dvCalc = expectedDv === 11 ? '0' : expectedDv === 10 ? 'K' : expectedDv.toString();
-
-      return dv === dvCalc ? null : { rutInvalido: true };
+      // Patrón de RUT sin puntos ni guion, con 8 dígitos y un dígito verificador
+      const rutPattern = /^[0-9]{8}[K0-9]$/i;
+      return rutPattern.test(rut) ? null : { invalidRut: true };
     };
   }
 
@@ -129,11 +125,27 @@ export class RegisterComponent implements AfterViewInit {
     };
   }
 
-  private matchPasswords(): ValidatorFn {
+  private passwordStrengthValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = control.value;
+      if (!password) return null;
+
+      // Verifica que tenga al menos 8 caracteres, una mayúscula y un número
+      const regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+      return regex.test(password)
+        ? null
+        : { passwordWeak: 'La contraseña no cumple con los estándares de seguridad.' };
+    };
+  }
+
+  private matchPasswordsValidator(): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
       const password = group.get('password')?.value;
-      const confirm = group.get('password_confirmation')?.value;
-      return password === confirm ? null : { passwordMismatch: true };
+      const confirmPassword = group.get('password_confirmation')?.value;
+
+      return password === confirmPassword
+        ? null
+        : { passwordsMismatch: true };
     };
   }
 
@@ -155,4 +167,3 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 }
-
