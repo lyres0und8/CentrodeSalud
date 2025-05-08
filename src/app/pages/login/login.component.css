@@ -55,6 +55,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 50px;
 }
 
 h2 {
@@ -101,7 +102,7 @@ input {
 }
 
 .boton:hover {
-  background-color:#e6820d;
+  background-color:#f4a024;
   color: white;
 }
 
@@ -112,6 +113,7 @@ a {
 
 a:hover {
   text-decoration: underline;
+  color:#e17f00;
 }
 
 .error-message {
@@ -188,8 +190,8 @@ h2 {
   }
 }
 
-.register-link {
-  color: #f4a024;
+.login-link {
+  color: #ff9f1d;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
@@ -197,7 +199,7 @@ h2 {
   border-radius: 4px;
 }
 
-.register-link:hover {
+.login-link:hover {
   background-color: #f4a024;
   color: white;
   text-decoration: none;
