@@ -12,8 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppComponent, // ✅ debe ser standalone también
-    ResetPasswordComponent, // ✅ ahora sí funciona si tiene `standalone: true`
+    AppComponent,
+    ResetPasswordComponent,
   ],
   bootstrap: [AppComponent],
 })
