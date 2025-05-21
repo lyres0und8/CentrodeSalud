@@ -1,0 +1,299 @@
+body {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.normal-text {
+  font-weight: 400 !important;
+}
+
+.bold-text {
+  font-weight: 700 !important;
+}
+
+/* Botón hamburguesa */
+.menu-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  display: block;
+  color: #30bfb1;
+  background: none;
+  border: none;
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+}
+
+/* Menú oculto inicialmente */
+.menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  background-color: #98e6e0;
+  border: none;
+  padding: 0;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Activar menú */
+.menu.active {
+  display: flex;
+}
+
+/* Estilos de items del menú */
+.menu li {
+  list-style: none;
+  width: 100%;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+/* Enlaces del menú */
+.menu a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+}
+
+/* Hover */
+.menu a:hover {
+  background-color: #30bfb1;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+nav img {
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+  pointer-events: none;      /* Deshabilita el arrastre */
+  height: 60px;
+}
+
+/* Navegación */
+nav {
+  background-color: #c8f0ef;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulario */
+form {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+h2 {
+  color: #30bfb1;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  color: #f4a024;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  background-color: #f5f5f5;
+  font-size: 16px;
+  color: #718096; /* Cambia el color del texto */
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(48, 191, 177, 0.2);
+}
+
+/* Estilo para los inputs del formulario */
+.input {
+  width: 100%;
+  padding: 0.75rem; /* Ajusta el padding para que sea consistente */
+  border-radius: 8px;
+  border: 1px solid #e2e2e2; /* Borde gris claro */
+  background-color: #f5f5f5; /* Fondo gris claro */
+  font-size: 0.875rem; /* Tamaño de fuente */
+  color: #718096; /* Color del texto */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #ff9f1d; /* Borde naranja */
+  box-shadow: 0 0 0 2px rgba(255, 159, 29, 0.5); /* Efecto de enfoque naranja */
+}
+
+/* Estilo para los mensajes de error */
+.text-red-500 {
+  font-size: 0.75rem; /* Tamaño de fuente más pequeño */
+}
+
+/* Estilo para los labels */
+.label {
+  font-size: 0.875rem; /* Tamaño de fuente */
+  color: #ff9f1d; /* Color naranja */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.boton:hover {
+  background-color:#f4a024;
+  color: white;
+}
+
+a {
+  color: #f4a024;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+  color:#e17f00;
+}
+
+error-message {
+  color: #dc3545;
+  background-color: #ffe6e6;
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Botón de registro */
+.submit-button {
+  background-color: #f4c04e;
+  color: #000000;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #f4a024;
+  color: #ffffff;
+}
+
+.Register-link {
+  color: #ff9f1d;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.Register-link:hover {
+  background-color: #f4a024;
+  color: white;
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  form {
+    padding: 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+}
+
+/* Validación visual */
+input.ng-invalid.ng-touched {
+  border: 1px solid #dc3545;
+}
+
+input.ng-valid.ng-touched {
+  border: 1px solid #28a745;
+}
+
+/* Menú responsivo */
+.menu-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #c8f0ef;
+    padding: 1rem;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .menu.active {
+    display: block;
+  }
+}
+
+.boton:hover {
+  background-color:#f4a024;
+  color: white;
+}

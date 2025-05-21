@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear una cuenta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./register.component.css">
+</head>
+
+<body class="bg-white p-0">
+  <nav class="w-full h-28 bg-[#A2DADB] flex items-center justify-between px-6 shadow-md relative z-50">
+    <img src="../../assets/SaludYa.png" alt="Logo" class="h-20">
+
+    <div class="relative">
+      <div id="menu-toggle" class="menu-toggle" (click)="toggleMenu()">&#9776;</div>
+      <ul id="menu" class="menu" [class.hidden]="!isMenuVisible">
+        <li><a href="#inicio" class="bold-text" (click)="toggleMenu()">Inicio</a></li>
+        <li><a routerLink="/login" class="bold-text" (click)="toggleMenu()">Iniciar Sesión</a></li>
+        <li><a routerLink="/register" class="bold-text" (click)="toggleMenu()">Registrarse</a></li>
+      </ul>
+      <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40" [class.hidden]="!isMenuVisible" (click)="toggleMenu()"></div>
+    </div>
+  </nav>
+
+  <h2 class="text-[#30bfb1] text-3xl md:text-4xl mb-5 p-4 ml-20 relative top-6 bold-text">Crea una cuenta</h2>
+
+  <form [formGroup]="formRegister" (ngSubmit)="registrarse()" class="max-w-8xl mx-24">
+    <div *ngIf="errorMessage.length > 0" class="text-red-500">
+      <ul>
+        <li *ngFor="let error of errorMessage">{{ error }}</li>
+      </ul>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-24">
+      <!-- Columna izquierda -->
+      <div class="space-y-4">
+        <!-- RUT -->
+        <div>
+          <label for="rut" class="text-sm text-[#ff9f1d] bold-text">RUT</label>
+          <input id="rut" type="text" formControlName="rut"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su RUT sin números ni guión"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(formControls['rut'].invalid && (formControls['rut'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['rut'].errors?.['required']">El RUT es obligatorio.</small>
+            <small class="text-red-500" *ngIf="formControls['rut'].errors?.['rutInvalido']">RUT inválido.</small>
+          </div>
+          <div *ngIf="rutRepetido" class="text-red-500">
+            El RUT y/o correo electrónico ya existen en el sistema. Intente iniciar sesión.
+          </div>
+        </div>
+
+        <!-- Nombre -->
+        <div>
+          <label for="nombre" class="text-sm text-[#ff9f1d] bold-text">Nombre</label>
+          <input id="nombre" type="text" formControlName="name"
+           class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+           placeholder="Ingrese su Nombre"
+           class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(formControls['name'].invalid && (formControls['name'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['name'].errors?.['required']">El nombre es obligatorio.</small>
+            <small class="text-red-500" *ngIf="formControls['name'].errors?.['minlength']">
+              El nombre debe tener al menos 3 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <!-- Apellido Paterno -->
+        <div>
+          <label for="apellido_p" class="text-sm text-[#ff9f1d] bold-text">Apellido Paterno</label>
+          <input id="apellido_p" type="text" formControlName="paternal_surname"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su Apellido Paterno"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(formControls['paternal_surname'].invalid && (formControls['paternal_surname'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['paternal_surname'].errors?.['required']">
+              El apellido paterno es obligatorio.
+            </small>
+            <small class="text-red-500" *ngIf="formControls['paternal_surname'].errors?.['minlength']">
+              El apellido paterno debe tener al menos 3 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <!-- Apellido Materno -->
+        <div>
+          <label for="apellido_m" class="text-sm text-[#ff9f1d] bold-text">Apellido Materno</label>
+          <input id="apellido_m" type="text" formControlName="maternal_surname"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su Apellido Materno"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(formControls['maternal_surname'].invalid && (formControls['maternal_surname'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['maternal_surname'].errors?.['required']">
+              El apellido materno es obligatorio.
+            </small>
+            <small class="text-red-500" *ngIf="formControls['maternal_surname'].errors?.['minlength']">
+              El apellido materno debe tener al menos 3 caracteres.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha -->
+      <div class="space-y-4">
+        <!-- Email -->
+        <div>
+          <label for="email" class="text-sm text-[#ff9f1d] bold-text">Correo electrónico</label>
+          <input id="email" type="email" formControlName="email"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su correo electrónico"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(formControls['email'].invalid && (formControls['email'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['email'].errors?.['required']">El correo es obligatorio.</small>
+            <small class="text-red-500" *ngIf="formControls['email'].errors?.['email']">Correo inválido.</small>
+          </div>
+          <div *ngIf="emailRepetido" class="text-red-500">
+            El correo electrónico ya existe en el sistema. Intente iniciar sesión.
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div>
+          <label for="telefono" class="text-sm text-[#ff9f1d] bold-text">Teléfono</label>
+          <input id="telefono" type="text" formControlName="phone"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su número de teléfono (Ej: +56912345678)"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none">
+          <div *ngIf="(formControls['phone'].invalid && (formControls['phone'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['phone'].errors?.['required']">El teléfono es obligatorio.</small>
+            <small class="text-red-500" *ngIf="formControls['phone'].errors?.['telefonoInvalido']">
+              El número de teléfono ingresado no es válido.
+            </small>
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div>
+          <label for="password" class="text-sm text-[#ff9f1d] bold-text">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Cree una contraseña (mínimo 8 caracteres)"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none"
+          >
+          <div *ngIf="(formControls['password'].invalid && (formControls['password'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['password'].errors?.['required']">
+              La contraseña es obligatoria.
+            </small>
+            <small class="text-red-500" *ngIf="formControls['password'].errors?.['minlength']">
+              La contraseña debe tener al menos 8 caracteres.
+            </small>
+            <small class="text-red-500" *ngIf="formControls['password'].errors?.['passwordWeak']">
+              La contraseña no cumple con los estándares de seguridad.
+            </small>
+          </div>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div>
+          <label for="repeat_password" class="text-sm text-[#ff9f1d] bold-text">Repetir Contraseña</label>
+          <input
+            id="repeat_password"
+            type="password"
+            formControlName="password_confirmation"
+            class="input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9f1d]"
+            placeholder="Ingrese su contraseña nuevamente"
+            class="w-full px-4 py-2 bg-[#e6e0e0] rounded-[10px] border-none focus:outline-none"
+          >
+          <div *ngIf="(formControls['password_confirmation'].invalid && (formControls['password_confirmation'].touched || submitted))">
+            <small class="text-red-500" *ngIf="formControls['password_confirmation'].errors?.['required']">
+              Debes repetir la contraseña.
+            </small>
+            <small class="text-red-500" *ngIf="formRegister.hasError('passwordsMismatch')">
+              Las contraseñas no coinciden.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 flex flex-col md:flex-row md:items-center md:justify-between">
+      <p class="text-sm normal-text mb-4 md:mb-0">
+        ¿Ya tienes una cuenta?
+        <a routerLink="/login" class="text-[#ff9f1d] bold-text underline ml-1 hover:text-[#e17f00] transition-colors duration-200 cursor-pointer">
+          Iniciar sesión
+        </a>
+      </p>
+      <button
+        type="submit"
+        [disabled]="formRegister.invalid"
+        class="mt-10 md:mt-3 bg-[#ff9f1d] text-white px-6 py-2 rounded-full shadow hover:bg-[#e6820d] transition text-sm md:text-base bold-text"
+      >
+        Registrarse
+      </button>
+    </div>
+    </form>
+    <footer class="w-full bg-[#30bfb1] text-white py-10 px-6">
+      <div class="max-w-9xl mx-auto flex justify-start items-center">
+      <p class="text-sm 15px">&copy; 2025 Salud Ya. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+</body>
+</html>
