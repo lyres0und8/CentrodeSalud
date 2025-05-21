@@ -70,11 +70,14 @@ export class RegisterComponent implements AfterViewInit {
     };
 
     try {
-      const response = await this.accesoService.registrarse(formData).toPromise();
+      const response = await this.accesoService
+        .registrarse(formData)
+        .toPromise();
       console.log('Registro exitoso:', response);
 
       // Mostrar mensaje de éxito
-      this.successMessage = 'Registro exitoso. Redirigiendo al inicio de sesión...';
+      this.successMessage =
+        'Registro exitoso. Redirigiendo al inicio de sesión...';
 
       // Redirigir al login después de 5 segundos
       setTimeout(() => {
@@ -84,11 +87,15 @@ export class RegisterComponent implements AfterViewInit {
       console.error('Error al registrar:', error);
 
       if (error?.error?.errors) {
-        this.errorMessage = Object.values(error.error.errors).flat() as string[];
+        this.errorMessage = Object.values(
+          error.error.errors
+        ).flat() as string[];
       } else if (error?.message) {
         this.errorMessage = [error.message];
       } else {
-        this.errorMessage = ['Error al registrar el usuario. Inténtalo de nuevo.'];
+        this.errorMessage = [
+          'Error al registrar el usuario. Inténtalo de nuevo.',
+        ];
       }
     }
   }
@@ -134,7 +141,10 @@ export class RegisterComponent implements AfterViewInit {
       const regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
       return regex.test(password)
         ? null
-        : { passwordWeak: 'La contraseña no cumple con los estándares de seguridad.' };
+        : {
+            passwordWeak:
+              'La contraseña no cumple con los estándares de seguridad.',
+          };
     };
   }
 
@@ -143,27 +153,27 @@ export class RegisterComponent implements AfterViewInit {
       const password = group.get('password')?.value;
       const confirmPassword = group.get('password_confirmation')?.value;
 
-      return password === confirmPassword
-        ? null
-        : { passwordsMismatch: true };
+      return password === confirmPassword ? null : { passwordsMismatch: true };
     };
   }
 
   ngAfterViewInit(): void {
-    const toggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    const overlay = document.getElementById('overlay');
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('menu');
+      const overlay = document.getElementById('overlay');
 
-    if (toggle && menu && overlay) {
-      toggle.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-        overlay.classList.toggle('hidden');
-      });
+      if (toggle && menu && overlay) {
+        toggle.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          overlay.classList.toggle('hidden');
+        });
 
-      overlay.addEventListener('click', () => {
-        menu.classList.add('hidden');
-        overlay.classList.add('hidden');
-      });
+        overlay.addEventListener('click', () => {
+          menu.classList.add('hidden');
+          overlay.classList.add('hidden');
+        });
+      }
     }
   }
 }
